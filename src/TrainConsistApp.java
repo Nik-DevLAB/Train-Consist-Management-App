@@ -1,14 +1,20 @@
 package src;
 
-import java.util.*;
-
 public class TrainConsistApp {
     public static void main(String[] args) {
 
-        String[] bogies = {"Sleeper","AC Chair","First Class","General","Luxury"};
+        String[] ids = {"BG101","BG205","BG309","BG412","BG550"};
+        String key = "BG309";
 
-        Arrays.sort(bogies);
+        boolean found = false;
 
-        System.out.println(Arrays.toString(bogies));
+        for (String id : ids) {
+            if (id.equals(key)) {
+                found = true;
+                break;
+            }
+        }
+
+        System.out.println(found ? "Bogie Found" : "Bogie Not Found");
     }
 }
