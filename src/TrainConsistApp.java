@@ -1,6 +1,7 @@
 package src;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 class Bogie {
     String name;
@@ -30,29 +31,28 @@ class Bogie {
 public class TrainConsistApp {
     public static void main(String[] args) {
 
-        // Step 1: Create List of Bogies
+        // Step 1: Create List of Bogies (same as UC7)
         List<Bogie> bogieList = new ArrayList<>();
-
-        // Step 2: Add Passenger Bogies
         bogieList.add(new Bogie("Sleeper", 72));
         bogieList.add(new Bogie("AC Chair", 56));
         bogieList.add(new Bogie("First Class", 24));
+        bogieList.add(new Bogie("Luxury Coach", 80)); // extra for testing
 
-        // Step 3: Sort using Comparator (by capacity)
-        bogieList.sort(Comparator.comparingInt(Bogie::getCapacity));
+        // Step 2: Apply Stream Filtering (capacity > 60)
+        List<Bogie> filteredBogies = bogieList.stream()
+                .filter(b -> b.getCapacity() > 60)
+                .collect(Collectors.toList());
 
-        // Step 4: Display Sorted Bogies
-        System.out.println("Bogies Sorted by Capacity (Ascending):");
-        for (Bogie b : bogieList) {
-            b.display();
+        // Step 3: Display Filtered Bogies
+        System.out.println("Filtered Bogies (Capacity > 60):");
+        if (filteredBogies.isEmpty()) {
+            System.out.println("No bogies match the criteria.");
+        } else {
+            filteredBogies.forEach(Bogie::display);
         }
 
-        // Optional: Descending Order
-        bogieList.sort(Comparator.comparingInt(Bogie::getCapacity).reversed());
-
-        System.out.println("\nBogies Sorted by Capacity (Descending):");
-        for (Bogie b : bogieList) {
-            b.display();
-        }
+        // Step 4: Verify Original List Unchanged
+        System.out.println("\nOriginal Bogie List (Unchanged):");
+        bogieList.forEach(Bogie::display);
     }
 }
