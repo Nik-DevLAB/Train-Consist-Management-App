@@ -1,53 +1,26 @@
 package src;
 
-import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.*;
+
+class Bogie {
+    String type, cargo;
+    Bogie(String type, String cargo) {
+        this.type = type;
+        this.cargo = cargo;
+    }
+}
 
 public class TrainConsistApp {
-
     public static void main(String[] args) {
+        List<Bogie> list = Arrays.asList(
+                new Bogie("Cylindrical", "Petroleum"),
+                new Bogie("Open", "Coal"),
+                new Bogie("Box", "Grain")
+        );
 
-        Scanner scanner = new Scanner(System.in);
+        boolean safe = list.stream()
+                .allMatch(b -> !b.type.equals("Cylindrical") || b.cargo.equals("Petroleum"));
 
-        // Step 1: Take User Input
-        System.out.print("Enter Train ID: ");
-        String trainId = scanner.nextLine();
-
-        System.out.print("Enter Cargo Code: ");
-        String cargoCode = scanner.nextLine();
-
-        // Step 2: Define Regex Patterns
-        String trainRegex = "TRN-\\d{4}";
-        String cargoRegex = "PET-[A-Z]{2}";
-
-        // Step 3: Compile Patterns
-        Pattern trainPattern = Pattern.compile(trainRegex);
-        Pattern cargoPattern = Pattern.compile(cargoRegex);
-
-        // Step 4: Create Matchers
-        Matcher trainMatcher = trainPattern.matcher(trainId);
-        Matcher cargoMatcher = cargoPattern.matcher(cargoCode);
-
-        // Step 5: Validate using matches()
-        boolean isTrainValid = trainMatcher.matches();
-        boolean isCargoValid = cargoMatcher.matches();
-
-        // Step 6: Display Results
-        System.out.println("\nValidation Results:");
-
-        if (isTrainValid) {
-            System.out.println("Train ID is VALID");
-        } else {
-            System.out.println("Train ID is INVALID (Expected format: TRN-1234)");
-        }
-
-        if (isCargoValid) {
-            System.out.println("Cargo Code is VALID");
-        } else {
-            System.out.println("Cargo Code is INVALID (Expected format: PET-AB)");
-        }
-
-        scanner.close();
+        System.out.println(safe ? "Train is Safe" : "Train is Unsafe");
     }
 }
