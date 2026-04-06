@@ -3,8 +3,12 @@ package src;
 public class TrainConsistApp {
     public static void main(String[] args) {
 
-        String[] ids = {"BG101","BG205","BG309","BG412","BG550"};
+        String[] ids = {}; // empty dataset
         String key = "BG309";
+
+        if (ids.length == 0) {
+            throw new IllegalStateException("No bogies available for search");
+        }
 
         int low = 0, high = ids.length - 1;
         boolean found = false;
