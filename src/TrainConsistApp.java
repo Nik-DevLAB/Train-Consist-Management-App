@@ -1,7 +1,6 @@
 package src;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 class Bogie {
     String name;
@@ -22,7 +21,7 @@ class Bogie {
         return capacity;
     }
 
-    // Display
+    // Display method
     public void display() {
         System.out.println("Bogie Type: " + name + " | Capacity: " + capacity);
     }
@@ -31,33 +30,23 @@ class Bogie {
 public class TrainConsistApp {
     public static void main(String[] args) {
 
-        // Step 1: Create Bogie List (reuse from UC7/UC8)
+        // Step 1: Create Bogie List (reuse from previous UCs)
         List<Bogie> bogieList = new ArrayList<>();
         bogieList.add(new Bogie("Sleeper", 72));
         bogieList.add(new Bogie("AC Chair", 56));
         bogieList.add(new Bogie("First Class", 24));
-        bogieList.add(new Bogie("Sleeper", 70)); // duplicate type
-        bogieList.add(new Bogie("AC Chair", 60));
+        bogieList.add(new Bogie("Sleeper", 70));
 
-        // Step 2: Group by Bogie Type (name)
-        Map<String, List<Bogie>> groupedBogies =
-                bogieList.stream()
-                        .collect(Collectors.groupingBy(Bogie::getName));
+        // Step 2: Stream → map → reduce
+        int totalSeats = bogieList.stream()
+                .map(b -> b.getCapacity())     // extract capacity
+                .reduce(0, Integer::sum);      // aggregate (sum)
 
-        // Step 3: Display Grouped Result
-        System.out.println("Grouped Bogies by Type:\n");
-
-        for (Map.Entry<String, List<Bogie>> entry : groupedBogies.entrySet()) {
-            System.out.println("Category: " + entry.getKey());
-
-            for (Bogie b : entry.getValue()) {
-                b.display();
-            }
-            System.out.println();
-        }
+        // Step 3: Display Total
+        System.out.println("Total Seating Capacity of Train: " + totalSeats);
 
         // Step 4: Verify Original List Unchanged
-        System.out.println("Original Bogie List (Unchanged):");
+        System.out.println("\nOriginal Bogie List (Unchanged):");
         bogieList.forEach(Bogie::display);
     }
 }
